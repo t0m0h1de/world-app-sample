@@ -1,0 +1,9 @@
+services:
+  db:
+    build: ./db 
+    container_name: world-db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - 30451:5432

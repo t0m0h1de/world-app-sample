@@ -1,0 +1,4 @@
+github.com/jbarham/gopgsqldriver v0.0.0-20120227112153-f8287ee9bfe2 h1:gOLSX4BzjbqvSVohlYamLd5V1ayRFNgw8/NeY6Hn74Q=
+github.com/jbarham/gopgsqldriver v0.0.0-20120227112153-f8287ee9bfe2/go.mod h1:lQcihSZp1fUp8WcdmZoKHJKLBE5fmimy7Uj7zAZbKPc=
+github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=
+github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
