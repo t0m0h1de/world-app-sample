@@ -19,7 +19,7 @@ func main() {
 	errhandler.ErrHandler(err)
 	err = controller.CityController(r, db)
 	errhandler.ErrHandler(err)
-	r.Run((":7879"))
+	r.Run((":8080"))
 }
 
 type config struct {
@@ -38,7 +38,7 @@ func configure() config {
 	}
 	dbpassword := os.Getenv("DBPASSWORD")
 	if dbpassword == "" {
-		dbpassword = "password"
+		dbpassword = "postgres"
 	}
 	dbhost := os.Getenv("DBHOST")
 	if dbhost == "" {
@@ -51,7 +51,7 @@ func configure() config {
 	dbportstr := os.Getenv("DBPORT")
 	dbport, err := strconv.Atoi(dbportstr)
 	if err != nil {
-		dbport = 30451
+		dbport = 5432
 	}
 	dbsslmodestr := os.Getenv("DBSSLMODE")
 	var dbsslmode bool = true

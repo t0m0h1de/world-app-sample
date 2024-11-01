@@ -1,9 +1,22 @@
 services:
   db:
-    build: .docker/db
+    build:
+      dockerfile: .docker/db/Dockerfile
+      context: .
     container_name: world-db
     restart: always
     environment:
       POSTGRES_PASSWORD: password
     ports:
       - 30451:5432
+  app:
+    build:
+      dockerfile: .docker/go/Dockerfile
+      context: .
+    container_name: world-app
+    environment:
+      DBPORT: 5432
+      DBHOST: world-db
+      DBPASSWORD: password
+    ports:
+      - 8080:8080
