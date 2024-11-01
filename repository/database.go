@@ -1,7 +1,7 @@
 package repository
 
 type Database interface {
-	Connect(string, string, string, int, bool) error
+	Connect(string, string, string, string, int, bool) error
 	Close()
 	FindPopulation(city string) (int, error)
 }

@@ -1,6 +1,6 @@
 services:
   db:
-    build: ./db 
+    build: .docker/db
     container_name: world-db
     restart: always
     environment:

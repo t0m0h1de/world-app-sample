@@ -10,14 +10,14 @@ type PostgreSQL struct {
 	db  *sql.DB
 }
 
-func (pg *PostgreSQL) Connect(user string, password string, dbname string, port int, sslmode bool) error {
+func (pg *PostgreSQL) Connect(user string, password string, host string, dbname string, port int, sslmode bool) error {
 	var sslcap string
 	if sslmode {
 		sslcap = "enable"
 	} else {
 		sslcap = "disable"
 	}
-	pg.dsn = fmt.Sprintf("user=%s password=%s dbname=%s port=%d sslmode=%s", user, password, dbname, port, sslcap)
+	pg.dsn = fmt.Sprintf("user=%s password=%s host=%s dbname=%s port=%d sslmode=%s", user, password, host, dbname, port, sslcap)
 	var err error
 	pg.db, err = sql.Open("postgres", pg.dsn)
 	return err
