@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/t0m0h1de/world-app-sample/errhandler"
+	"github.com/t0m0h1de/world-app-sample/model"
 )
 
 type PostgreSQL struct {
@@ -31,11 +32,41 @@ func (pg PostgreSQL) Close() {
 	pg.db.Close()
 }
 
-func (pg *PostgreSQL) FindCityPopulation(city string) (int, error) {
+func (pg *PostgreSQL) FindCity(cityname string) (model.City, error) {
 	err := pg.db.Ping()
 	errhandler.ErrHandler(err)
-	query := fmt.Sprintf("SELECT population FROM city WHERE name = '%s'", city)
+	query := fmt.Sprintf("SELECT * FROM city WHERE name = '%s'", cityname)
+	var id int
+	var name string
+	var countrycode string
+	var district string
 	var population int
-	err = pg.db.QueryRow(query).Scan(&population)
-	return population, err
+	err = pg.db.QueryRow(query).Scan(&id, &name, &countrycode, &district, &population)
+	city := model.City{
+		Id:          id,
+		Name:        name,
+		CountryCode: countrycode,
+		District:    district,
+		Population:  population,
+	}
+	return city, err
+}
+
+func (pg *PostgreSQL) FindCityById(id int) (model.City, error) {
+	err := pg.db.Ping()
+	errhandler.ErrHandler(err)
+	query := fmt.Sprintf("SELECT * FROM city WHERE id = %d", id)
+	var name string
+	var countrycode string
+	var district string
+	var population int
+	err = pg.db.QueryRow(query).Scan(&id, &name, &countrycode, &district, &population)
+	city := model.City{
+		Id:          id,
+		Name:        name,
+		CountryCode: countrycode,
+		District:    district,
+		Population:  population,
+	}
+	return city, err
 }

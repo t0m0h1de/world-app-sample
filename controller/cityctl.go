@@ -10,14 +10,38 @@ import (
 
 func CityController(r *gin.Engine, db repository.Database) {
 	r.GET("/city/:cityname", func(c *gin.Context) {
-		city := c.Param("cityname")
-		population, err := db.FindCityPopulation(city)
+		cityname := c.Param("cityname")
+		city, err := db.FindCity(cityname)
 		if err == nil {
 			c.JSON(200, gin.H{
-				"message": strconv.Itoa(population),
+				"id":          city.Id,
+				"name":        city.Name,
+				"countrycode": city.CountryCode,
+				"district":    city.District,
+				"population":  city.Population,
 			})
 		} else {
-			notFoundResponse(c, fmt.Sprintf("city: %s", city))
+			notFoundResponse(c, fmt.Sprintf("cityname: %s", cityname))
+		}
+	})
+
+	r.GET("/city/id/:id", func(c *gin.Context) {
+		inputId := c.Param("id")
+		id, err := strconv.Atoi(inputId)
+		if err != nil {
+			badRequestResponse(c, fmt.Sprintf("id: %s must be numeric", inputId))
+		}
+		city, err := db.FindCityById(id)
+		if err == nil {
+			c.JSON(200, gin.H{
+				"id":          city.Id,
+				"name":        city.Name,
+				"countrycode": city.CountryCode,
+				"district":    city.District,
+				"population":  city.Population,
+			})
+		} else {
+			notFoundResponse(c, fmt.Sprintf("id: %s", inputId))
 		}
 	})
 }
@@ -25,5 +49,11 @@ func CityController(r *gin.Engine, db repository.Database) {
 func notFoundResponse(c *gin.Context, msg string) {
 	c.JSON(404, gin.H{
 		"message": fmt.Sprintf("Resouce is not found (%s)", msg),
+	})
+}
+
+func badRequestResponse(c *gin.Context, msg string) {
+	c.JSON(400, gin.H{
+		"message": fmt.Sprintf("Bad request (%s)", msg),
 	})
 }
