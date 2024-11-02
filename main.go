@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"github.com/t0m0h1de/world-app-sample/controller"
-	"github.com/t0m0h1de/world-app-sample/errhandler"
 	"github.com/t0m0h1de/world-app-sample/repository"
 )
 
@@ -15,10 +14,8 @@ func main() {
 	c := configure()
 	r := gin.Default()
 	db := &repository.PostgreSQL{}
-	err := db.Connect(c.dbuser, c.dbpassword, c.dbhost, c.dbname, c.dbport, c.dbsslmode)
-	errhandler.ErrHandler(err)
-	err = controller.CityController(r, db)
-	errhandler.ErrHandler(err)
+	db.Connect(c.dbuser, c.dbpassword, c.dbhost, c.dbname, c.dbport, c.dbsslmode)
+	controller.CityController(r, db)
 	r.Run((":8080"))
 }
 
